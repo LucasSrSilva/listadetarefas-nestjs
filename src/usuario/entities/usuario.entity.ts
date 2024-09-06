@@ -38,9 +38,11 @@ export class Usuario {
     @ApiProperty()
     public senha: string
 
-    @Column({length: 5000}) 
+    @Column({
+        type: process.env.DB_TYPE === 'postgres' ? 'bytea' : 'longblob'
+    }) 
     @ApiProperty()
-    public foto: string
+    public foto: Buffer
 
     @ApiProperty()
     @OneToMany(() => Tarefa, tarefa => tarefa.usuario)
