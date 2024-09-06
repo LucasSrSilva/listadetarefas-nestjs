@@ -38,9 +38,7 @@ export class Usuario {
     @ApiProperty()
     public senha: string
 
-    @Column({
-        type: process.env.DB_TYPE === 'postgres' ? 'bytea' : 'longblob'
-    }) 
+    @Column('bytea') 
     @ApiProperty()
     public foto: Buffer
 
