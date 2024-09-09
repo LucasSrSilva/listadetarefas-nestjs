@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { Usuario } from "../entities/usuario.entity";
 import { UsuarioService } from "../services/usuario.service";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiTags } from "@nestjs/swagger";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("Usuario")
 @Controller("/usuarios")
@@ -27,7 +28,15 @@ export class UsuarioController{
 
     @Post('/cadastrar')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() usuario: Usuario): Promise<Usuario>{
+    @ApiConsumes('multipart/form-data')
+    @UseInterceptors(FileInterceptor("foto"))
+    async create(
+        @Body() usuario: Usuario,
+        @UploadedFile() foto: Express.Multer.File
+    ): Promise<Usuario>{
+        if(foto){
+            usuario.foto = foto.buffer
+        }
         return this.usuarioService.create(usuario)
     }
 

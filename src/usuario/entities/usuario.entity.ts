@@ -38,8 +38,8 @@ export class Usuario {
     @ApiProperty()
     public senha: string
 
-    @Column('bytea') 
-    @ApiProperty()
+    @Column({type:'bytea', nullable: true}) 
+    @ApiProperty({type: 'string', format: 'binary'})
     public foto: Buffer
 
     @ApiProperty()
