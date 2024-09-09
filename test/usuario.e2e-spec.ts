@@ -37,8 +37,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
         nome: 'Root',
         sobrenome: 'root',
         email: 'root@root.com',
-        senha: 'rootroot',
-        foto: '-'
+        senha: 'rootroot'
       })
       .expect(201)
 
@@ -53,8 +52,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
         nome: 'Root',
         sobrenome: 'root',
         email: 'root@root.com',
-        senha: 'rootroot',
-        foto: '-'
+        senha: 'rootroot'
       })
       .expect(400)
 
@@ -89,8 +87,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
       id: usuarioId,
       nome: 'Root Atualizado',
       email: 'root@root.com',
-      senha: 'rootroot',
-      foto: '-',
+      senha: 'rootroot'
     })
     .expect(200)
     .then( resposta => {
