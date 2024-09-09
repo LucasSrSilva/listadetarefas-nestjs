@@ -28,15 +28,9 @@ export class UsuarioController{
 
     @Post('/cadastrar')
     @HttpCode(HttpStatus.CREATED)
-    @ApiConsumes('multipart/form-data')
-    @UseInterceptors(FileInterceptor("foto"))
     async create(
         @Body() usuario: Usuario,
-        @UploadedFile() foto: Express.Multer.File
     ): Promise<Usuario>{
-        if(foto){
-            usuario.foto = foto.buffer
-        }
         return this.usuarioService.create(usuario)
     }
 

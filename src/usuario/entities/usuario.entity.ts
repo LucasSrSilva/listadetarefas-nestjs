@@ -38,10 +38,6 @@ export class Usuario {
     @ApiProperty()
     public senha: string
 
-    @Column({type:'bytea', nullable: true}) 
-    @ApiProperty({type: 'string', format: 'binary'})
-    public foto: Buffer
-
     @ApiProperty()
     @OneToMany(() => Tarefa, tarefa => tarefa.usuario)
     tarefa: Tarefa[]
