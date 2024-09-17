@@ -3,6 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
 import { Bcrypt } from '../../auth/bcrypt/bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+import { extname } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 
 
 @Injectable()
@@ -50,11 +53,19 @@ export class UsuarioService {
 
     }
 
-    async create(usuario: Usuario): Promise<Usuario> {
+    async create(usuario: Usuario, file: Express.Multer.File): Promise<Usuario> {
 
         let buscaUsuario = await this.findByUsuario(usuario.email);
 
         if (!buscaUsuario) {
+            if (file) {
+                if (!existsSync('./src/usuario/uploads')) {
+                    mkdirSync('./src/usuario/uploads');
+                }
+                console.log(file.path)
+                usuario.foto = file.filename
+            }
+
             usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
             return await this.usuarioRepository.save(usuario);
         }

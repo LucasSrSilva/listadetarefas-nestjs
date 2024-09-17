@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { ApiConsumes, ApiProperty } from "@nestjs/swagger"
 import { Transform, TransformFnParams } from "class-transformer"
 import { IsNotEmpty, IsEmail, MinLength } from "class-validator"
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
@@ -10,7 +10,6 @@ export class Usuario {
 
     
     @PrimaryGeneratedColumn() 
-    @ApiProperty()
     public id: number
 
     @Transform(({ value }: TransformFnParams) => value?.trim())
@@ -31,6 +30,14 @@ export class Usuario {
     @ApiProperty({example: "email@email.com"})
     public email: string
 
+    @Column({nullable: true})
+    @ApiProperty({
+        type: 'string',
+        format: 'binary',
+        required: false,
+      })
+    foto: string
+
     @Transform(({ value }: TransformFnParams) => value?.trim())
     @MinLength(8)
     @IsNotEmpty()
@@ -38,7 +45,7 @@ export class Usuario {
     @ApiProperty()
     public senha: string
 
-    @ApiProperty()
+    
     @OneToMany(() => Tarefa, tarefa => tarefa.usuario)
     tarefa: Tarefa[]
 
